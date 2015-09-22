@@ -38,17 +38,11 @@ locally:
 http://127.0.0.1/remote_locate.php?device=9093190447&long=-80.1236953735&lat=26.3995513916&acc=65.0&alt=0.0&altacc=-1.0&batt=0.9
 */
 
-//Do our defines so we have logging.
-define("DEBUG", 1);
 /* Set our directory and log name */
 define("LOG_FILE", "/tmp/deviceLocateApp.log");
-
+define ("WEB_EOL", "<br/>");
 //Set our default time zone.
 date_default_timezone_set(timezone_name_from_abbr('UTC'));
-
-if(DEBUG == true) {
-  error_log(date('[Y-m-d H:i e] '). "HTTP request URL:". $_SERVER['REQUEST_URI'] . PHP_EOL, 3, LOG_FILE);
-}
 
 //Filter URL Parameters - You can change these filters to what ever works for you
 $lat=filter_input(INPUT_GET, 'lat', FILTER_VALIDATE_FLOAT);
@@ -59,18 +53,29 @@ $batt=filter_input(INPUT_GET, 'batt', FILTER_VALIDATE_FLOAT);
 $ipAddress=filter_input(INPUT_GET, 'ip', FILTER_VALIDATE_IP);
 $timeDiff=filter_input(INPUT_GET, 'timediff', FILTER_VALIDATE_INT);
 $device=filter_input(INPUT_GET, 'device', FILTER_SANITIZE_SPECIAL_CHARS);
+$doDebug=filter_input(INPUT_GET, 'doDebug', FILTER_VALIDATE_INT);
+
+if($doDebug == 1) { //echo debug data to web page
+  echo(date('[Y-m-d H:i e] '). "HTTP request URL:". $_SERVER['REQUEST_URI']. WEB_EOL);
+}
+else if($doDebug == 2) { //writes debug info to log file
+  error_log(date('[Y-m-d H:i e] '). "HTTP request URL:". $_SERVER['REQUEST_URI'] . PHP_EOL, 3, LOG_FILE);
+}
 
 // This is just a quick sanity check to make sure we have a valid lat/lon
 if($lat > -90.0 && $lat < 90.0 && $lon > -180.0 && $lat < 180.0) {
   //Instantiate our class
-  $processPosition = new ProcessPosition();
+  $processPosition = new ProcessPosition($doDebug);
   
+
   //call google maps api with lat/lon to get closest address
   $addressArray = $processPosition->reverseGeocodeGoogle($lat, $lon);
-  if(DEBUG == true) {
-    error_log(date('[Y-m-d H:i e] '). "processPosition->reverseGeocodeGoogle:". print_r($addressArray, true) . PHP_EOL, 3, LOG_FILE);
+  if($doDebug == 1) {
+    echo(date('[Y-m-d H:i e] '). "processPosition->reverseGeocodeGoogle:". print_r($addressArray, true) . WEB_EOL);
   }
-  
+  else if($doDebug == 2) {
+    error_log(date('[Y-m-d H:i e] '). "processPosition->reverseGeocodeGoogle:". print_r($addressArray, true) . PHP_EOL, 3, LOG_FILE);
+  }   
   //Create a timeStamp var since none comes with the position. 
   //You can subtract the timediff arg to make it more accurate 
   $timeStamp = time();
@@ -109,13 +114,16 @@ if($lat > -90.0 && $lat < 90.0 && $lon > -180.0 && $lat < 180.0) {
 	private $dbTrackLogTable   = "trackLog";	// This is what ever you called your table.
 	private $dbh = '';
 
-	public function __construct(){
+	public function __construct($doDebug){
       try {
 	    $this->dbh	= new PDO("mysql:dbname={$this->dbname};host={$this->dbhost};port={$this->dbport}", $this->dbuser, $this->dbpass);
       } 
       catch (PDOException $e) {
         /* Our Connection failed, log it */
-        if(DEBUG == true) {
+        if($doDebug == 1) {
+          echo(date('[Y-m-d H:i e] '). "PDO Connection failed:". $e->getMessage() . WEB_EOL);
+        }
+        else if($doDebug == 2) {
           error_log(date('[Y-m-d H:i e] '). "PDO Connection failed:". $e->getMessage() . PHP_EOL, 3, LOG_FILE);
         }
       }
