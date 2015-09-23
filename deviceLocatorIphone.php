@@ -20,7 +20,7 @@ actual phone number in the device field as shown below. This is to associate eac
 with the phone it came from. The line below is litterally copy paste after you set device= to your
 number.
 
-http://gpsonit.com/deviceLocatorIphone.php?device=15555551212&long={long}&lat={lat}&acc={acc}&alt={alt}&altacc={altacc}&batt={batt}&ip={ip}&timediff={timediff}
+http://127.0.0.1/deviceLocatorIphone.php?device=15555551212&long={long}&lat={lat}&acc={acc}&alt={alt}&altacc={altacc}&batt={batt}&ip={ip}&timediff={timediff}
 
 Variable:	Description:
 {long}	Longitude
