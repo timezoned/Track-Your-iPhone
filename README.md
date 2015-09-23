@@ -42,7 +42,7 @@ and assuming you have the priveleges do create you should now have a myDB Databa
  
 Now lets test it all:
 bring up your browser and paste this in the address field:
-http://127.0.0.1/deviceLocatorIphone.php?device=9999999999&long=-80.1236953735&lat=26.3995513916&acc=65.0&alt=0.0&altacc=-1.0&batt=0.9&ipAddress=217.0.0.1&doDebug=1
+http://127.0.0.1/deviceLocatorIphone.php?device=9999999999&long=-80.1236953735&lat=26.3995513916&acc=65.0&alt=0.0&altacc=-1.0&batt=0.9&ip=127.0.0.1&doDebug=1
 
 If you note that for our test we have appended an additional argument at the end called doDebug.
 doDebug is set to 1 will output debug information to the browser window for a local test.
