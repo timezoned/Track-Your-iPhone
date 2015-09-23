@@ -20,7 +20,7 @@ actual phone number in the device field as shown below. This is to associate eac
 with the phone it came from. The line below is litterally copy paste after you set device= to your
 number.
 
-http://gpsonit.com/remote_locateIPhone.php?device=15555551212&long={long}&lat={lat}&acc={acc}&alt={alt}&altacc={altacc}&batt={batt}&ip={ip}&timediff={timediff}
+http://gpsonit.com/deviceLocatorIphone.php?device=15555551212&long={long}&lat={lat}&acc={acc}&alt={alt}&altacc={altacc}&batt={batt}&ip={ip}&timediff={timediff}
 
 Variable:	Description:
 {long}	Longitude
@@ -35,11 +35,11 @@ Variable:	Description:
 
 You can test your installation by pasting this in your browser assuming you are running a web server
 locally:
-http://127.0.0.1/remote_locate.php?device=9093190447&long=-80.1236953735&lat=26.3995513916&acc=65.0&alt=0.0&altacc=-1.0&batt=0.9
+http://127.0.0.1/deviceLocatorIphone.php?device=9093190447&long=-80.1236953735&lat=26.3995513916&acc=65.0&alt=0.0&altacc=-1.0&batt=0.9
 */
 
 /* Set our directory and log name */
-define("LOG_FILE", "/tmp/deviceLocateApp.log");
+define("LOG_FILE", "/tmp/deviceLocatorIphone.log");
 define ("WEB_EOL", "<br/>");
 //Set our default time zone.
 date_default_timezone_set(timezone_name_from_abbr('UTC'));
@@ -129,7 +129,6 @@ if($lat > -90.0 && $lat < 90.0 && $lon > -180.0 && $lat < 180.0) {
       }
     }
     public function reverseGeocodeGoogle($lat, $lon) {
-      //echo 'Trying Google'."</br>\r\n";
       $addr['Address'] = '';
       $addr['City'] = '';
       $addr['County'] = '';
