@@ -2,12 +2,12 @@
 ## Description: 
 This is a light weight cross platform GPS track logging backend processor.
 This version is written to work with an app in the Apple App Store 'Device Locator'. I
-Am not affiliated with the app in any way. I chose this one because of it runs in the backgound
+Am not affiliated with the app in any way. I chose this one because of it runs in the background
 of the iPhone and restarts itself after a reboot. Also, there is a web site were you can
 enter your URL and arguments for THIS application. 
 
-This is a working example that is fine for processing a handfull of iPhones. To track a
-large amount or psuedo realtime tracking the architecture would be different in that 
+This is a working example that is fine for processing a handful of iPhones. To track a
+large amount or pseudo realtime tracking the architecture would be different in that 
 you would not want the feed to be slowed down because of slow reverse geocoding calls
 and the like.   
 
